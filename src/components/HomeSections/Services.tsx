@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Link } from "react-router-dom";
+
 
 const C = {
   white:     "#FFFFFF",
@@ -44,7 +46,6 @@ function ImageCarousel({ images, title, category, number }: {
     setCurrent((idx + images.length) % images.length);
   }, [images.length]);
 
-  // Auto-scroll
   useEffect(() => {
     if (!hasMany) return;
     timerRef.current = setTimeout(() => goTo(current + 1), 3000);
@@ -65,7 +66,6 @@ function ImageCarousel({ images, title, category, number }: {
 
   return (
     <div style={{ position: "relative", height: "190px", overflow: "hidden", background: C.lightGray }}>
-      {/* Slides */}
       {images.map((src, i) => (
         <img
           key={src + i}
@@ -80,14 +80,12 @@ function ImageCarousel({ images, title, category, number }: {
         />
       ))}
 
-      {/* Gradient overlay */}
       <div style={{
         position: "absolute", inset: 0,
         background: "linear-gradient(to top, rgba(26,31,46,0.55) 0%, rgba(26,31,46,0.1) 55%, transparent 100%)",
         pointerEvents: "none",
       }} />
 
-      {/* Category tag */}
       <div style={{
         position: "absolute", top: "12px", left: "12px",
         background: C.white,
@@ -100,7 +98,6 @@ function ImageCarousel({ images, title, category, number }: {
         </span>
       </div>
 
-      {/* Number */}
       <div style={{
         position: "absolute", top: "12px", right: "12px",
         fontFamily: "'DM Mono', monospace", fontSize: "0.65rem",
@@ -109,7 +106,6 @@ function ImageCarousel({ images, title, category, number }: {
         {number} / 03
       </div>
 
-      {/* Arrow buttons — only if multiple images */}
       {hasMany && (
         <>
           <button
@@ -155,7 +151,6 @@ function ImageCarousel({ images, title, category, number }: {
         </>
       )}
 
-      {/* Dot indicators */}
       {hasMany && (
         <div style={{
           position: "absolute", bottom: "44px", left: "50%",
@@ -180,7 +175,6 @@ function ImageCarousel({ images, title, category, number }: {
         </div>
       )}
 
-      {/* Title */}
       <h3 style={{
         position: "absolute", bottom: "14px", left: "16px", right: "16px",
         fontFamily: "'Playfair Display', serif",
@@ -194,15 +188,16 @@ function ImageCarousel({ images, title, category, number }: {
   );
 }
 
-// ── Service type with images array ──────────────────────────────
+// ── Service type ────────────────────────────────────────────────
 type Service = {
   id: number;
   number: string;
   title: string;
   description: string;
   tags: string[];
-  images: string[];   // ← array now; single image = array of one
+  images: string[];
   category: string;
+  href: string; // ← added
 };
 
 const SERVICES: Service[] = [
@@ -214,6 +209,7 @@ const SERVICES: Service[] = [
     tags: ["Détatouage", "Laser Q-Switch"],
     images: ["/img/service1.jpeg", "/img/service11.jpeg", "/img/service111.jfif"],
     category: "Laser",
+    href: "/services/laser",
   },
   {
     id: 2,
@@ -221,8 +217,9 @@ const SERVICES: Service[] = [
     title: "Traitements Esthétiques",
     description: "Botox, acide hyaluronique et mésothérapie administrés selon des protocoles validés pour un résultat naturel et sécurisé, sous supervision médicale stricte.",
     tags: ["Botox", "Fillers", "Peeling"],
-    images: ["/img/service2.jpeg"],   // single image — no carousel shown
+    images: ["/img/service2.jpeg"],
     category: "Esthétique",
+    href: "/services/esthetiques",
   },
   {
     id: 3,
@@ -232,6 +229,7 @@ const SERVICES: Service[] = [
     tags: ["Sourire gingival", "Botox"],
     images: ["/img/service3.jpeg", "/img/service33.png"],
     category: "Esthétique",
+    href: "/services/esthetiques",
   },
 ];
 
@@ -244,83 +242,88 @@ function ServiceCard({ service, index, inView }: {
   const [hov, setHov] = useState(false);
 
   return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        background: C.white,
-        border: `1px solid ${hov ? C.accentLine + "60" : C.borderGray}`,
-        borderRadius: "8px",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        opacity: inView ? 1 : 0,
-        transform: inView ? "translateY(0)" : "translateY(24px)",
-        transition: `opacity 0.5s ease ${index * 100}ms, transform 0.5s ease ${index * 100}ms, border-color 0.2s, box-shadow 0.2s`,
-        boxShadow: hov ? `0 8px 32px rgba(26,58,92,0.10)` : "0 1px 4px rgba(0,0,0,0.05)",
-        cursor: "default",
-      }}
+    <a
+      href={service.href}
+      style={{ textDecoration: "none", display: "block" }}
     >
-      <ImageCarousel
-        images={service.images}
-        title={service.title}
-        category={service.category}
-        number={service.number}
-      />
+      <div
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          background: C.white,
+          border: `1px solid ${hov ? C.accentLine + "60" : C.borderGray}`,
+          borderRadius: "8px",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          opacity: inView ? 1 : 0,
+          transform: inView ? "translateY(0)" : "translateY(24px)",
+          transition: `opacity 0.5s ease ${index * 100}ms, transform 0.5s ease ${index * 100}ms, border-color 0.2s, box-shadow 0.2s`,
+          boxShadow: hov ? `0 8px 32px rgba(26,58,92,0.10)` : "0 1px 4px rgba(0,0,0,0.05)",
+          cursor: "pointer",
+        }}
+      >
+        <ImageCarousel
+          images={service.images}
+          title={service.title}
+          category={service.category}
+          number={service.number}
+        />
 
-      {/* Body */}
-      <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}>
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: "0.82rem", lineHeight: 1.7,
-          color: C.textMid, flex: 1, margin: 0,
-        }}>
-          {service.description}
-        </p>
-
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-          {service.tags.map(tag => (
-            <span key={tag} style={{
-              fontFamily: "'DM Mono', monospace",
-              fontSize: "0.62rem", letterSpacing: "0.06em",
-              padding: "4px 10px", borderRadius: "4px",
-              background: hov ? C.accentLt : C.lightGray,
-              color: hov ? C.accentMid : C.textMid,
-              border: `1px solid ${hov ? C.accentLine + "40" : "transparent"}`,
-              transition: "all 0.2s",
-            }}>
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div style={{ height: "1px", background: hov ? C.accentLine + "30" : C.borderGray, transition: "background 0.2s" }} />
-
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <a href="#" style={{
+        {/* Body */}
+        <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}>
+          <p style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.72rem", fontWeight: 500,
-            color: hov ? C.accentMid : C.textMid,
-            textDecoration: "none",
-            letterSpacing: "0.04em",
-            transition: "color 0.2s",
-            display: "flex", alignItems: "center", gap: "6px",
+            fontSize: "0.82rem", lineHeight: 1.7,
+            color: C.textMid, flex: 1, margin: 0,
           }}>
-            En savoir plus
-            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              style={{ transform: hov ? "translateX(3px)" : "translateX(0)", transition: "transform 0.2s" }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-          <span style={{
-            fontFamily: "'DM Mono', monospace", fontSize: "0.6rem",
-            color: C.borderGray,
-          }}>
-            SRV-{service.number}
-          </span>
+            {service.description}
+          </p>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            {service.tags.map(tag => (
+              <span key={tag} style={{
+                fontFamily: "'DM Mono', monospace",
+                fontSize: "0.62rem", letterSpacing: "0.06em",
+                padding: "4px 10px", borderRadius: "4px",
+                background: hov ? C.accentLt : C.lightGray,
+                color: hov ? C.accentMid : C.textMid,
+                border: `1px solid ${hov ? C.accentLine + "40" : "transparent"}`,
+                transition: "all 0.2s",
+              }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div style={{ height: "1px", background: hov ? C.accentLine + "30" : C.borderGray, transition: "background 0.2s" }} />
+
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <Link to={service.href}>
+            <span style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.72rem", fontWeight: 500,
+              color: hov ? C.accentMid : C.textMid,
+              letterSpacing: "0.04em",
+              display: "flex", alignItems: "center", gap: "6px",
+              transition: "color 0.2s",
+            }}>
+              En savoir plus
+              <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                style={{ transform: hov ? "translateX(3px)" : "translateX(0)", transition: "transform 0.2s" }}>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span></Link>
+            <span style={{
+              fontFamily: "'DM Mono', monospace", fontSize: "0.6rem",
+              color: C.borderGray,
+            }}>
+              SRV-{service.number}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -328,6 +331,7 @@ function ServiceCard({ service, index, inView }: {
 function CTAButton({ primary, label, icon }: { primary: boolean; label: string; icon?: React.ReactNode }) {
   const [hov, setHov] = useState(false);
   return (
+    <Link to="/contact">
     <button
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
@@ -350,6 +354,7 @@ function CTAButton({ primary, label, icon }: { primary: boolean; label: string; 
       {icon}
       {label}
     </button>
+    </Link>
   );
 }
 
@@ -368,7 +373,6 @@ export default function Services() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
-        /* ── Responsive grid ── */
         .srv-cards {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -403,30 +407,15 @@ export default function Services() {
           flex-wrap: wrap;
         }
 
-        /* tablet */
         @media (max-width: 900px) {
-          .srv-cards {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          .srv-header-grid {
-            grid-template-columns: 1fr;
-            gap: 32px;
-          }
+          .srv-cards { grid-template-columns: repeat(2, 1fr); }
+          .srv-header-grid { grid-template-columns: 1fr; gap: 32px; }
         }
 
-        /* mobile */
         @media (max-width: 560px) {
-          .srv-cards {
-            grid-template-columns: 1fr;
-          }
-          .srv-stats {
-            grid-template-columns: repeat(3,1fr);
-            gap: 12px;
-          }
-          .srv-bottom {
-            flex-direction: column;
-            align-items: flex-start;
-          }
+          .srv-cards { grid-template-columns: 1fr; }
+          .srv-stats { grid-template-columns: repeat(3,1fr); gap: 12px; }
+          .srv-bottom { flex-direction: column; align-items: flex-start; }
         }
       `}</style>
 
@@ -539,7 +528,7 @@ export default function Services() {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               } />
-              <CTAButton primary={false} label="Tous les services" />
+          
             </div>
           </div>
 

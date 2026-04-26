@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const C = {
   white:     "#FFFFFF",
@@ -179,39 +180,35 @@ export default function About() {
   const { ref, inView } = useInView(0.08);
 
   const stats = [
-    { value: "15+", label: "Années d'expérience" },
+    { value: "40+", label: "Années d'expérience" },
     { value: "8k+", label: "Patients traités" },
-    { value: "4",   label: "Spécialisations" },
+    { value: "N°1",   label: "Pionnier en Afrique du Nord" },
   ];
 
   const credentials = [
-    {
-      icon: <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>,
-      text: "Certifiée FMH — Dermatologie & Vénérologie",
-      sub: "Fédération des Médecins Hospitaliers, 2014",
-    },
+   
     {
       icon: <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 14l9-5-9-5-9 5 9 5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>,
       text: "Faculté de Médecine de Tunis — Doctorat",
-      sub: "Promotion 2008 — Mention très honorable",
+      sub: "  Mention très honorable",
     },
     {
       icon: <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
       text: "Fellowship Esthétique — Hôpital Saint-Louis",
-      sub: "Paris, France · 2015",
+      sub: "Paris, France ",
     },
     {
       icon: <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
-      text: "Fondatrice — Clinique DermaCare",
-      sub: "Tunis, Tunisie · Depuis 2017",
+      text: "Fondateur — Mnajja Beauty Center",
+      sub: "Tunis, Tunisie ",
     },
   ];
 
   const timeline = [
-    { year: "2008", title: "Doctorat en Médecine",          place: "Faculté de Médecine de Tunis" },
-    { year: "2013", title: "Spécialisation Dermatologie",    place: "CHU La Rabta, Tunis" },
-    { year: "2015", title: "Fellowship Laser & Esthétique",  place: "Hôpital Saint-Louis, Paris" },
-    { year: "2017", title: "Fondation DermaCare",            place: "Cabinet privé, Tunis" },
+    { year: "", title: "Doctorat en Médecine",           },
+    { year: "", title: "Spécialisation Dermatologie",    },
+    { year: "", title: "Fellowship Laser & Esthétique", /* place: "Hôpital Saint-Louis, Paris"*/ },
+    { year: "", title: "Fondation Mnaja Beauty cneter",             },
   ];
 
   const specialties = [
@@ -378,7 +375,7 @@ export default function About() {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
                   <div>
                     <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem", fontWeight: 600, color: C.textDark, margin: 0 }}>
-                      Dr. Fathi Mnaja
+                      Dr. Fathi Mnajja
                     </p>
                     <p style={{ fontSize: "0.75rem", color: C.textMid, marginTop: "2px", marginBottom: 0 }}>
                       Dermatologue — Vénérologue
@@ -396,7 +393,7 @@ export default function About() {
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px", paddingTop: "14px", borderTop: `1px solid ${C.borderGray}` }}>
                   {[
-                    { label: "Localisation",  value: "Tunis, Tunisie" },
+                    { label: "Localisation",  value: "Mnajja Beauty Center a Tunis 23 Avenus de carthage| le cabinet de dr Manajja dermatologue a Gabes" },
                     { label: "Langues",        value: "Arabe · Français · Anglais" },
                     { label: "Consultations", value: "Lun – Sam, 09h – 17h" },
                   ].map(item => (
@@ -483,9 +480,9 @@ Ancien Attaché des Hôpitaux de Paris
                 <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.65rem", color: C.textMid, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "16px", marginTop: 0 }}>
                   Parcours
                 </p>
-                {timeline.map((item, i) => (
+                {/*{timeline.map((item, i) => (
                   <TimelineRow key={item.year} {...item} index={i} inView={inView} />
-                ))}
+                ))}*/ } 
               </div>
 
               {/* CTA */}
@@ -497,8 +494,8 @@ Ancien Attaché des Hôpitaux de Paris
                   transition: "opacity 0.5s ease 0.75s, transform 0.5s ease 0.75s",
                 }}
               >
-                <CTAButton primary label="Prendre rendez-vous" />
-                <CTAButton primary={false} label="Télécharger le CV" />
+             <Link to="/contact">   <CTAButton primary label="Prendre rendez-vous" /></Link>
+              <Link to="/apropos">  <CTAButton primary={false} label="En savoir plus" /></Link>
               </div>
 
             </div>

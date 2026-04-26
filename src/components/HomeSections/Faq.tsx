@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const C = {
   white:     "#FFFFFF",
@@ -260,7 +261,8 @@ function FAQAccordion({ item, index, inView }: {
 function CTAButton({ primary, label, icon }: { primary: boolean; label: string; icon?: React.ReactNode }) {
   const [hov, setHov] = useState(false);
   return (
-    <button
+    <Link 
+    to="contact"
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -281,7 +283,7 @@ function CTAButton({ primary, label, icon }: { primary: boolean; label: string; 
     >
       {icon}
       {label}
-    </button>
+    </Link>
   );
 }
 

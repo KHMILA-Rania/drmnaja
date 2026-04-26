@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface ServiceItem {
   label: string;
   desc: string;
   icon: React.ReactNode;
+  path:string
 }
 
 // ─── Palette (matches About / Services / Hero) ────────────────────────────────
@@ -24,51 +26,45 @@ const C = {
 // ─── Data ────────────────────────────────────────────────────────────────────
 const SERVICES: ServiceItem[] = [
   {
-    label: "SkinBooster",
-    desc: "Acné, eczéma, psoriasis & plus",
+    label: "Laser & Peau",
+    desc: "Détatouage laser, Épilation laser,Cicatrices",
     icon: (
       <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
           d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
       </svg>
     ),
+    path:"/services/laser"
   },
   {
-    label: "Traitements Esthétiques",
-    desc: "Botox, fillers, lasers",
+    label: "Visage & Esthétique",
+    desc: "Botox, fillers, Ovale du visage",
     icon: (
       <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
           d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
       </svg>
     ),
+     path:"/services/esthetiques"
   },
   {
-    label: "Dépistage Cancer Cutané",
-    desc: "Détection précoce & prévention",
+    label: "Corps & Cheveux",
+    desc: "Liposculture , fesses ,Greffes de cheveux",
     icon: (
       <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
           d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
       </svg>
     ),
+     path:"/services/corps"
   },
-  {
-    label: "Soins Cheveux & Cuir chevelu",
-    desc: "Alopécie & trichologie",
-    icon: (
-      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-      </svg>
-    ),
-  },
+
 ];
 
 // ─── Logo ─────────────────────────────────────────────────────────────────────
 function Logo() {
   return (
-    <a href="#" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
+    <Link to="/" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
       {/* Icon mark */}
       <div style={{
         width: "40px", height: "40px", borderRadius: "8px",
@@ -110,38 +106,41 @@ function Logo() {
          By Dr.Mnaja
         </span>
       </div>
-    </a>
+    </Link>
   );
 }
 
 // ─── Desktop nav link ─────────────────────────────────────────────────────────
-function NavLink({ label }: { label: string }) {
+function NavLink({ label, to }: { label: string; to: string }) {
   const [hov, setHov] = useState(false);
+
   return (
-    <a
-      href="#"
+    <Link
+      to={to}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
         fontFamily: "'DM Sans', sans-serif",
-        fontSize: "0.82rem", fontWeight: 500,
+        fontSize: "0.82rem",
+        fontWeight: 500,
         color: hov ? C.accentMid : C.textDark,
         textDecoration: "none",
         letterSpacing: "0.02em",
-        transition: "color 0.18s ease",
         position: "relative",
         paddingBottom: "2px",
       }}
     >
       {label}
       <span style={{
-        position: "absolute", bottom: 0, left: 0,
-        height: "1px", borderRadius: "1px",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        height: "1px",
         background: C.accentLine,
         width: hov ? "100%" : "0%",
         transition: "width 0.25s ease",
       }} />
-    </a>
+    </Link>
   );
 }
 
@@ -151,7 +150,8 @@ function ServicesDropdown({ open }: { open: boolean }) {
     <div style={{
       position: "absolute", top: "calc(100% + 12px)", left: "50%",
       transform: open ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-8px)",
-      width: "280px",
+      width: "90vw",
+      maxWidth: "280px",
       background: C.white,
       border: `1px solid ${C.borderGray}`,
       borderRadius: "8px",
@@ -195,8 +195,8 @@ function DropdownItem({ service }: { service: ServiceItem }) {
   const [hov, setHov] = useState(false);
   return (
     <li>
-      <a
-        href="#"
+      <Link
+        to={service.path}
         onMouseEnter={() => setHov(true)}
         onMouseLeave={() => setHov(false)}
         style={{
@@ -224,7 +224,7 @@ function DropdownItem({ service }: { service: ServiceItem }) {
             {service.desc}
           </p>
         </div>
-      </a>
+      </Link>
     </li>
   );
 }
@@ -261,7 +261,7 @@ function ViewAllLink() {
 function BookButton({ mobile = false }: { mobile?: boolean }) {
   const [hov, setHov] = useState(false);
   return (
-    <button
+    <Link to="/contact"><button
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -288,6 +288,7 @@ function BookButton({ mobile = false }: { mobile?: boolean }) {
       </svg>
       Prendre rendez-vous
     </button>
+    </Link>
   );
 }
 
@@ -353,6 +354,19 @@ function MobileMenu({ open }: { open: boolean }) {
             {l}
           </a>
         ))}
+           {["Contact"].map(l => (
+          <Link key={l} to="/contact" style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.85rem", fontWeight: 500, color: C.textDark,
+            padding: "12px 0",
+            borderBottom: `1px solid ${C.borderGray}`,
+            textDecoration: "none",
+            display: "flex", justifyContent: "space-between",
+          }}>
+            {l}
+          </Link>
+        ))}
+
 
         {/* Accordion */}
         <div>
@@ -380,23 +394,33 @@ function MobileMenu({ open }: { open: boolean }) {
           }}>
             <div style={{ padding: "8px 0 4px 16px", display: "flex", flexDirection: "column", gap: "2px" }}>
               {SERVICES.map(s => (
-                <a key={s.label} href="#" style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "0.78rem", color: C.accentMid,
-                  padding: "8px 0",
-                  textDecoration: "none",
-                  display: "flex", alignItems: "center", gap: "8px",
-                }}>
+            <Link
+  key={s.label}
+  to={s.path}
+  onClick={() => {
+    setAccOpen(false);     // close accordion
+  }}
+  style={{
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: "0.78rem",
+    color: C.accentMid,
+    padding: "8px 0",
+    textDecoration: "none",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  }}
+>
                   <span style={{ color: C.accentLine, display: "flex" }}>{s.icon}</span>
                   {s.label}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
         </div>
 
         {["Contact"].map(l => (
-          <a key={l} href="#" style={{
+          <Link key={l} to="/contact" style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: "0.85rem", fontWeight: 500, color: C.textDark,
             padding: "12px 0",
@@ -405,7 +429,7 @@ function MobileMenu({ open }: { open: boolean }) {
             display: "flex", justifyContent: "space-between",
           }}>
             {l}
-          </a>
+          </Link>
         ))}
 
         <div style={{ marginTop: "12px" }}>
@@ -429,6 +453,21 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+
+  const timeoutRef = useRef<number | null>(null);
+
+const openMenu = () => {
+  if (timeoutRef.current) {
+    clearTimeout(timeoutRef.current);
+  }
+  setServicesOpen(true);
+};
+
+const closeMenu = () => {
+  timeoutRef.current = window.setTimeout(() => {
+    setServicesOpen(false);
+  }, 150); // delay = smoother UX
+};
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (servicesRef.current && !servicesRef.current.contains(e.target as Node))
@@ -502,16 +541,16 @@ export default function Navbar() {
 
             {/* Desktop links */}
             <div className="nb-desktop-links" style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-              <NavLink label="Accueil" />
-              <NavLink label="À propos" />
+              <NavLink label="Accueil"to="/" />
+              <NavLink label="À propos" to="/apropos"/>
 
               {/* Services with dropdown */}
-              <div
-                ref={servicesRef}
-                style={{ position: "relative" }}
-                onMouseEnter={() => setServicesOpen(true)}
-                onMouseLeave={() => setServicesOpen(false)}
-              >
+            <div
+                  ref={servicesRef}
+                  style={{ position: "relative" }}
+                  onMouseEnter={openMenu}
+                  onMouseLeave={closeMenu}
+                >
                 <button
                   className="nb-srv-btn"
                   onClick={() => setServicesOpen(v => !v)}
@@ -536,7 +575,7 @@ export default function Navbar() {
                 <ServicesDropdown open={servicesOpen} />
               </div>
 
-              <NavLink label="Contact" />
+              <NavLink label="Contact" to="/contact" />
             </div>
 
             {/* Right side */}

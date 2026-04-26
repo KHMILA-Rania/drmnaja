@@ -9,7 +9,10 @@ export default function Home(){
   <Hero></Hero>
   <About></About>
   <Services></Services>
-  <FAQ></FAQ>
+  <section  id="faq">
+  <FAQ  
+  ></FAQ>
+  </section>
   </>
     )
 }
