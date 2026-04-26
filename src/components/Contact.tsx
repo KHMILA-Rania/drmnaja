@@ -647,7 +647,11 @@ export default function ContactPage() {
   overflow: "hidden",
 }}>
   {/* Embedded map */}
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.1911065032405!2d10.100733382532916!3d33.88473170417151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12556fb8f8c664e5%3A0x2aabc26f7e8fca95!2sMNAJA%20FATHI!5e0!3m2!1sfr!2stn!4v1777222554547!5m2!1sfr!2stn" width="600" height="450" style={{ border: 0 }}  loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.1911065032405!2d10.100733382532916!3d33.88473170417151!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12556fb8f8c664e5%3A0x2aabc26f7e8fca95!2sMNAJA%20FATHI!5e0!3m2!1sfr!2stn!4v1777222554547!5m2!1sfr!2stn" width="600" height="450" style={{
+    border: 0,
+    width: "100%",
+    height: isMobile ? "250px" : "350px",
+  }}  loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
 
   {/* Link to open full Google Maps */}
   <div style={{

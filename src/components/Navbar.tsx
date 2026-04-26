@@ -342,18 +342,29 @@ function MobileMenu({ open }: { open: boolean }) {
     }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "16px 24px 24px", display: "flex", flexDirection: "column", gap: "2px" }}>
 
-        {["Accueil", "À propos"].map(l => (
-          <a key={l} href="#" style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.85rem", fontWeight: 500, color: C.textDark,
-            padding: "12px 0",
-            borderBottom: `1px solid ${C.borderGray}`,
-            textDecoration: "none",
-            display: "flex", justifyContent: "space-between", alignItems: "center",
-          }}>
-            {l}
-          </a>
-        ))}
+        {[
+  { label: "Accueil", to: "/" },
+  { label: "À propos", to: "/apropos" }
+].map(l => (
+  <Link
+    key={l.label}
+    to={l.to}
+    style={{
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: "0.85rem",
+      fontWeight: 500,
+      color: C.textDark,
+      padding: "12px 0",
+      borderBottom: `1px solid ${C.borderGray}`,
+      textDecoration: "none",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    }}
+  >
+    {l.label}
+  </Link>
+))}
            {["Contact"].map(l => (
           <Link key={l} to="/contact" style={{
             fontFamily: "'DM Sans', sans-serif",
@@ -419,18 +430,7 @@ function MobileMenu({ open }: { open: boolean }) {
           </div>
         </div>
 
-        {["Contact"].map(l => (
-          <Link key={l} to="/contact" style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.85rem", fontWeight: 500, color: C.textDark,
-            padding: "12px 0",
-            borderBottom: `1px solid ${C.borderGray}`,
-            textDecoration: "none",
-            display: "flex", justifyContent: "space-between",
-          }}>
-            {l}
-          </Link>
-        ))}
+      
 
         <div style={{ marginTop: "12px" }}>
           <BookButton mobile />
