@@ -284,7 +284,7 @@ export default function ContactPage() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
-  const isDesktop = bp === "desktop";
+
 
   const { ref: heroRef, inView: heroIn } = useInView(0.01);
   const { ref: cardsRef, inView: cardsIn } = useInView(0.05);

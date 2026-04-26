@@ -55,17 +55,7 @@ const services: Service[] = [
 ];
 
 // ─── Responsive hook ──────────────────────────────────────────────────────────
-function useIsMobile(bp = 768) {
-  const [v, setV] = useState(
-    typeof window !== "undefined" ? window.innerWidth < bp : false
-  );
-  useEffect(() => {
-    const fn = () => setV(window.innerWidth < bp);
-    window.addEventListener("resize", fn);
-    return () => window.removeEventListener("resize", fn);
-  }, [bp]);
-  return v;
-}
+
 
 // ─── Carousel ─────────────────────────────────────────────────────────────────
 function Carousel({ images }: { images: string[] }) {
@@ -201,7 +191,7 @@ function Banner() {
 
       {/* Service count strip — right side */}
       <div className="corps-banner-strip">
-        {services.map((s, i) => (
+        {services.map((s) => (
           <div key={s.index} className="corps-banner-strip-item">
             <span className="corps-banner-strip-num">{s.index}</span>
             <span className="corps-banner-strip-label">{s.tag}</span>
@@ -251,7 +241,7 @@ function Banner() {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export default function Corps() {
-  const isMobile = useIsMobile();
+
 
   return (
     <>

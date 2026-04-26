@@ -85,34 +85,6 @@ function CredentialRow({ icon, text, sub,  inView }: { icon: React.ReactNode; te
   );
 }
 
-function TimelineRow({ year, title, place, index, inView }: { year: string; title: string; place: string; index: number; inView: boolean }) {
-  return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "64px 1fr",
-      gap: "0 16px",
-      alignItems: "start",
-      opacity: inView ? 1 : 0,
-      transform: inView ? "translateY(0)" : "translateY(8px)",
-      transition: `opacity 0.45s ease ${400 + index * 80}ms, transform 0.45s ease ${400 + index * 80}ms`,
-    }}>
-      <div style={{ textAlign: "right", paddingTop: "2px" }}>
-        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.7rem", color: C.accentLine, fontWeight: 500 }}>
-          {year}
-        </span>
-      </div>
-      <div style={{ borderLeft: `1px solid ${C.borderGray}`, paddingLeft: "16px", paddingBottom: "20px", position: "relative" }}>
-        <div style={{
-          position: "absolute", left: "-4.5px", top: "5px",
-          width: "8px", height: "8px", borderRadius: "50%",
-          background: C.accentLine, border: `2px solid ${C.white}`,
-        }} />
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.83rem", fontWeight: 500, color: C.textDark, margin: 0 }}>{title}</p>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", color: C.textMid, marginTop: "2px", marginBottom: 0 }}>{place}</p>
-      </div>
-    </div>
-  );
-}
 
 function SpecialtyTag({ label, inView }: { label: string; index: number; inView: boolean }) {
   const [hov, setHov] = useState(false);
@@ -204,12 +176,7 @@ export default function About() {
     },
   ];
 
-  const timeline = [
-    { year: "", title: "Doctorat en Médecine",           },
-    { year: "", title: "Spécialisation Dermatologie",    },
-    { year: "", title: "Fellowship Laser & Esthétique", /* place: "Hôpital Saint-Louis, Paris"*/ },
-    { year: "", title: "Fondation Mnaja Beauty cneter",             },
-  ];
+
 
   const specialties = [
     "Dermatologie médicale", "Laser & photothérapie",
